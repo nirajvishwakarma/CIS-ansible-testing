@@ -1,0 +1,26 @@
+---
+- name: Include the konstruktoid.hardening role
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+  any_errors_fatal: true
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        # name: konstruktoid.hardening
+        name: ansible-role-hardening
+      vars:
+        block_blacklisted: true
+        sshd_admin_net:
+          - 0.0.0.0/0
+          - 34.125.92.92/24
+        suid_sgid_permissions: false
+- name: Debug facts
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+  any_errors_fatal: true
+  tasks:
+    - name: Include debug tasks
+      ansible.builtin.include_tasks: debug_facts.yml
+...
