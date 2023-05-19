@@ -1,0 +1,22 @@
+---
+- name: Ensure nss-resolve is present in /etc/nsswitch.conf
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  tasks:
+    - name: Check if nss-resolve is present
+      shell: grep -q '^hosts:\s*files\s*resolve\s*myhostname\s*nss-resolve\s*$' /etc/nsswitch.conf
+      register: grep_result
+      changed_when: false
+      failed_when: false
+
+    - name: Add nss-resolve to /etc/nsswitch.conf
+      lineinfile:
+        path: /etc/nsswitch.conf
+        line: 'hosts: files resolve myhostname nss-resolve'
+        state: present
+      when: "'hosts: files resolve myhostname nss-resolve' not in grep_result.stdout_lines"
+
+    - name: Display result
+      debug:
+        msg: "nss-resolve is {{ 'present' if ('hosts: files resolve myhostname nss-resolve' in grep_result.stdout_lines) else 'absent' }}"

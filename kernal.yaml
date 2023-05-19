@@ -1,0 +1,22 @@
+---
+- name: Ensure nss-resolve is present in /etc/nsswitch.conf
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  tasks:
+    - name: Check if minclass is set
+      shell: grep -q '^minclass\s*=' /etc/security/pwquality.conf
+      register: grep_result
+      changed_when: false
+      failed_when: false
+
+    - name: Set minclass parameter
+      lineinfile:
+        path: /etc/security/pwquality.conf
+        regexp: '^#?minclass\s*='
+        line: 'minclass = 3'
+      when: "'minclass = 3' not in grep_result.stdout_lines"
+
+    - name: Display result
+      debug:
+        msg: "minclass is {{ 'set' if ('minclass = 3' in grep_result.stdout_lines) else 'not set' }}"
