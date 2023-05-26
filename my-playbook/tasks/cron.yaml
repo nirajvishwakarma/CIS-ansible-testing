@@ -1,5 +1,5 @@
 ---
-- name: Verify Configuration
+- name: Ensure Cron Logging is Enabled
   hosts: all
   remote_user: ubuntu
   become: true

@@ -1,0 +1,47 @@
+---
+- name: Ensure sysctl  settings are configured
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  tasks:
+
+    - name: Check sysctl runtime settings for kernel.perf_event_paranoid
+      command: sysctl -n kernel.perf_event_paranoid
+      register: perf_event_paranoid_result
+      changed_when: false
+      failed_when: false
+
+    - name: Set sysctl runtime settings for kernel.perf_event_paranoid
+      command: sysctl -w kernel.perf_event_paranoid=2
+      when: perf_event_paranoid_result.stdout != "2"
+
+    - name: Check sysctl runtime settings for kernel.modules_disabled
+      command: sysctl -n kernel.modules_disabled
+      register: modules_disabled_result
+      changed_when: false
+      failed_when: false
+
+    - name: Set sysctl runtime settings for kernel.modules_disabled
+      command: sysctl -w kernel.modules_disabled=1
+      when: modules_disabled_result.stdout != "1"
+
+
+    - name: Check sysctl settings
+      shell: grep -E '^kernel.modules_disabled\s*=\s*1$|^kernel.perf_event_paranoid\s*=\s*2$' /etc/sysctl.conf /usr/lib/sysctl.d/*.conf
+      register: grep_result
+      changed_when: false
+      failed_when: false
+
+    - name: Set sysctl settings for kernel.modules_disabled
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: 'kernel.modules_disabled = 1'
+        state: present
+      when: "grep_result.stdout == '' or ('kernel.modules_disabled = 1' not in grep_result.stdout_lines)"
+
+    - name: Set sysctl settings for kernel.perf_event_paranoid
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: 'kernel.perf_event_paranoid = 2'
+        state: present
+      when: "grep_result.stdout == '' or ('kernel.perf_event_paranoid = 2' not in grep_result.stdout_lines)"
