@@ -36,4 +36,4 @@
   tasks:
     - name: Include debug tasks
       ansible.builtin.include_tasks: debug_facts.yml
-...
+
