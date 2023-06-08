@@ -1,6 +1,6 @@
 ---
 - name: Install pip on Ubuntu 22
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
 

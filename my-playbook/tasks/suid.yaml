@@ -1,6 +1,6 @@
 ---
 - name: Ensure SUID/GUID is not set for specific commands
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

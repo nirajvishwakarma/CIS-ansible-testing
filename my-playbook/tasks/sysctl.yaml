@@ -1,6 +1,6 @@
 ---
 - name: Ensure sysctl  settings are configured
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

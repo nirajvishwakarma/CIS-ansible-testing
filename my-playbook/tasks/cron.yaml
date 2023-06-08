@@ -1,6 +1,6 @@
 ---
 - name: Ensure Cron Logging is Enabled
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

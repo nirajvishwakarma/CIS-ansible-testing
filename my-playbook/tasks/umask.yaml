@@ -1,6 +1,6 @@
 ---
 - name: Verify Configuration
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Ensure nss-resolve is present in /etc/nsswitch.conf
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

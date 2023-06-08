@@ -1,6 +1,6 @@
 ---
 - name: Set OpenSSH ClientAliveCountMax
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:

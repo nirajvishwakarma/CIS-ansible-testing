@@ -1,6 +1,6 @@
 ---
 - name: Install pip on Ubuntu 22
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: true
   tasks:
@@ -13,7 +13,7 @@
         state: present
 
 - name: Include the konstruktoid.hardening role
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: yes
   any_errors_fatal: true
@@ -29,7 +29,7 @@
           - 34.125.92.92/24
         suid_sgid_permissions: false
 - name: Debug facts
-  hosts: all
+  hosts: localhost
   remote_user: ubuntu
   become: yes
   any_errors_fatal: true
