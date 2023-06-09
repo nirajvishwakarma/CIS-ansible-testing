@@ -24,9 +24,9 @@
         name: ansible-role
       vars:
         block_blacklisted: true
-        sshd_admin_net:
-          - 0.0.0.0/0
-          - 34.125.92.92/24
+        #sshd_admin_net:
+        #  - 0.0.0.0/0
+        #  - 34.125.92.92/24
         suid_sgid_permissions: false
 - name: Debug facts
   hosts: localhost
